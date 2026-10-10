@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stat-relearning"
+version = "0.1.0"
+description = "Bluebikes trip data: raw ingest to Parquet, analysis with DuckDB"
+requires-python = ">=3.13"
+dependencies = [
+    "duckdb>=1.5",
+    "requests>=2.32",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+notebook = ["jupyterlab>=4"]
+
+[project.scripts]
+bluebikes-ingest = "bluebikes.ingest:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["network: hits the live Bluebikes S3 bucket (deselected by default; run with -m network)"]
+addopts = ["-m", "not network"]
